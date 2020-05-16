@@ -1,0 +1,200 @@
+Problem_1:
+    In the implementaion of LRU Cache. i have used a Dictionary and a queue. 
+    The dictionary is the best choice to get the valye of key in constant time.
+    A queue is used to maintain the Cache capacity and append a new item or 
+    remove the last item in constant time. 
+    
+    Complexity analysis:
+    1.  get function():
+    2.      if dict.get(key)                    ---- O(1)
+    3.          queue.remove(key)               ---- O(k)
+    4.          queue.append(key)               ---- O(1)
+    5.          return 
+    6.      else: return -1                     ---- O(1)
+    
+    7. set funciton():
+    8.      if key in queue:                                ---- O(k)
+    9.          queue.remove(key)                           ---- O(k)
+    10.     elif queue length > capacity                    ---- O(1)
+    11.         delete last element from queue and dict     ---- O(1)
+    12.     dict[key] = value                               ---- O(1)
+    13.     queue.append(key)                               ---- O(1)
+    
+    Hence we can see that the worst case complexity for get function is O(k)
+    and for set function is O(k^2) 
+    where k is the number of elements.
+    Considering that this is a cache, value of k will be very small and hence 
+    these complexities are acceptable.   
+    
+    
+Problem_2:
+    In the implementation of file recursion, i have used recursion in the function. 
+    i have used list data structure to store the files as appending is done in constant time.
+    
+    Complexity Analysis:
+    1. find_files(suffix, path):
+    2.      if suffix is absent or path is invalid return error msg    ----O(1)
+    3.      path_entries = os.listdir(path)                             
+    4.      if len(path_entries) = 0 return empty list                 ----O(1)
+    5.      for file in path_entries:                                  ----O(n)
+    6.          if file.endswith()                                     ----O(1)
+    7.              file_paths.append(file)                            ----O(1)
+    8.          elif '.' not in file:                                  ----O(k)
+    9.              sub_dir.append(file)                               ----O(1)
+    10.     for dir in sub_dir:                                        ----O(n)
+    11.         find_files(suffix,path+'/'+dir)                        ----O(h)
+    
+    Hence, time complexity for this problem could be 
+            = O(n*k) + O(n*n) = O(n*h)
+            where, n is the number of elements in the directory and k is the 
+            length of a file name and h is the height of recursion call tree.  
+                           
+
+    
+Problem_3:
+    In this implementation of Huffman coding, i have used heapq and Counter 
+    Dictionary. Counter easily gives us keys as the strings and values with their 
+    frequency in the data. Heapq is efficient as i need to insert the new node formed 
+    everytime when the two with least nodes are combined and sort it again. 
+    
+    Complexity analysis:
+    1. Huffman encoding():
+    2.      if data is null return 0                            ---- O(1)
+    3.      freq= Counter(data)                                 ---- O(N)
+    4.      empty heap list                                     ---- O(1)
+    5.      for key,value in freq:                              ---- O(N)
+    6.          heap.append(key,value)                          ---- O(1)
+    7.      heapify(heap)                                       ---- O(n)
+    8.      while loop:                                         ---- O(N)
+    9.          left_node = heappop()                           ---- O(logn)    
+    10.         right_node = heappop()                          ---- O(logn)
+    11.         for code in leftnode[1:]                        ---- O(1)
+    12.             increment code                              ---- O(1)
+    13.         for code in righttnode[1:]                      ---- O(1)
+    14.             increment code                              ---- O(1)
+    15.     heappush()                                          ---- O(logn)
+    16.     root = heappop                                      ---- O(logn)
+    17.     for char,code in sorted(heap)                       ---- O(nlogn)
+    18.         codes[char] = code                              ---- O(1)
+    19.     for i in data:                                      ---- O(N)
+    20.         encoded_data.append(codes[i])                   ---- O(1)
+    21.     return 
+    
+    22. Huffman Decoding: 
+    23.     empty decoded and current strings                   ---- O(1)
+    24.     def get_val(value):                                 ---- O(1)    
+    25          for k,v in codes.items:                         ---- O(k)
+    26.             if v = value                                ---- O(1)
+    27.                 return k                                ---- O(1)
+    28.     for i in range(1,len(data))                         ---- O(k)
+    29.         current += data[i]                              ---- O(1)
+    30.         if current in codes.values:                     ---- O(k)
+    31.             decoded += get_val(current)                 ---- O(1)
+    32.     return decoded    
+    
+    As we can see, encoding function() we use a while loop inside of which we 
+    call heappop. This makes its complexity O(nlogn) where n is the number of
+    elements. 
+    In decoding function, the complexity is O(k) where k is the number of items 
+    in the dictionary. 
+        
+Problem_4:
+    here, we have implemented Recursion and called get_users and get_groups method.
+    since, we need to check all the subgroups present in the group for a user, 
+    recursion is the best choice to use.
+    
+    Complexity analysis:
+        1. get_users() method               ---- O(1)
+        2. user in users                    ---- O(n) 
+        3. u in get_groups()                ---- O(u)
+        4.      call recursive function     ---- O(n)
+        5. return                           ---- O(1)
+        
+        As we can see, 
+            in the best case, user is present is users list and we return True. 
+                This would take T(k) for k users: user is last in list
+                
+            in the average case, user is not there in users list so checking that will take T(n).
+                Then iterating through list of groups and recursively calling the function with that group
+                which has an average time complexity of O(2^n) 
+                where n is the number of elements in the list of users.
+            
+            in the worst case, user is not present in the subgroups and even in users list. 
+                Then we will have to iterate through every group and subgroup in the main group to check
+                this would take O(n*n)
+                where n is the number of elements in the list of users.
+            
+
+Problem_5:
+    Here, we created a class of Blockchain having a head and a tail element. 
+    i added two functions in this class; addBlock and printChain. addblock is if
+    we want to add a new block in the chain. printChain is for print all the 
+    blocks in the chain.
+    we used a linkedlist like structure to keep track of tail (for adding new 
+    block) and head (for printing the chain). 
+    
+    Complexity:
+    1. addBlock function()
+    2.      if data:                                    ---- O(1)
+    3.          if head is None:                        ---- O(1)
+    4.              create new Block                    ---- O(n)
+    5.              assign head and tail to this Block  ---- O(1)
+    6.          else:
+    7.              create new block                    ---- O(n)
+    8.              tail.next= block                    ---- O(1)
+    9.              tail = block                        ---- O(1)
+    
+    10. printChain function()
+    11.     current = head                              ---- O(1)
+    12.     while loop for iterating                    ---- O(k)
+    13.         print Block                             ---- O(1)
+    14.         current = current.next                  ---- O(1)
+    
+    Hence we can see that, for addBlock function, the complexity depends
+    on the block creation. Especiall the hash calculation of that block.
+    We have used SHA256 which takes 32 bits. Hence time taken will change accordingly.
+    so time complexity is O(k) where k depends on hash calculation.
+    
+    For, printChain function, we are iterating through the number of blocks
+    so time complexity is O(n) where n is the number of blocks.
+    
+Problem_6:
+    For union i have used a list structure to store the values and check if that 
+    value is already there before appending it to the union LinkedList. I could
+    have used a set structure but then i would have to use a different loop to add
+    values to my final LinkedList as a trade off. 
+    For intersection, i have used two sets to store values of the two linked lists
+    Also, it is very easy to implement intersection between two set data 
+    structures. 
+    
+    Complexity analysis:
+    Union:
+        1. creating empty list                          ---- O(1)
+        2. creatinf empty LinkedList                    ---- O(1)
+        3. adding function
+        4.      while current                           ---- O(1)
+        5.      look for current.value in check         ---- O(n)
+        6.          append in check                     ---- O(1)
+        7.          append in union LL                  ---- O(1)
+        8.      iterate current                         ---- O(1)
+        9. call adding function for first LinkedList    ---- O(1)
+        10. call adding function for second LinkedList  ---- O(1)
+        11. return 
+        
+        Here, the adding function's time complexity is O(n)
+        So, total time complexity for UNION is O(n)
+    
+    Intersection:
+        1. empty set for linkedlist_1                                   ---- O(1)
+        2. empty set for linkedlist_2                                   ---- O(1)
+        3. New linkedList of intersection                               ---- O(1)
+        4.storing head values of both linked lists in current variables ---- O(1)
+        5.moving through linked_list_1 to add its values to set         ---- O(m) 
+        6. moving through linked_list_2 to add its values to set        ---- O(n)
+        7. looping through each element in intersection of two sets     ---- O(min(m,n))
+        8.      appending element into intersection linkedlist          ---- O(1)
+        9. return
+        
+        Here, the intersection set takes O(min(len(LL1),len(LL2))) so 
+        total time complexity for INTERSECTION is O(n) 
+
